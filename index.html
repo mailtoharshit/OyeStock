@@ -56,7 +56,7 @@
             getData();
             console.log("Polling Stocks");
           }
-         }, 90);
+         }, 10000);
       </script>
    </head>
    <body>
@@ -73,8 +73,10 @@
                </div>
                <div class="mdl-layout-spacer">
                </div>
-               <a href="https://github.com/mailtoharshit/OyeStock" target="_blank" ><i class="fa fa-github fa-2x"></i></a>
+               <a href="https://github.com/mailtoharshit/OyeStock"><i class="fa fa-github fa-2x" _target="blank"></i></a>
             </div>
+          <!--  <div class="mdl-layout__tab-bar-container"><div class="mdl-layout__tab-bar-button mdl-layout__tab-bar-left-button"><i class="material-icons">chevron_left</i></div><div class="mdl-layout__tab-bar mdl-js-ripple-effect is-casting-shadow mdl-js-ripple-effect--ignore-events" data-upgraded=",MaterialRipple">
+      </div><div class="mdl-layout__tab-bar-button mdl-layout__tab-bar-right-button"><i class="material-icons">chevron_right</i></div></div> -->
          </header>
          <div class="mdl-layout__drawer">
             <div class="docs-logo" href="/">
@@ -87,7 +89,7 @@
          <main class="mdl-layout__content">
             <div class="mdl-grid">
                <div  class="mdl-cell mdl-cell--2-col "></div>
-               <div  class="mdl-cell mdl-cell--8-col card-lesson demo-card-wide mdl-card mdl-shadow--2dp" style="background: #e74c3c;
+               <div  class="mdl-cell mdl-cell--8-col card-lesson demo-card-wide mdl-card mdl-shadow--2dp" style="background: #ee6e73;
                   color: white;
                   font-family: Roboto, sans-serif;
                   font-size: 90px;">
@@ -276,14 +278,17 @@
          font-size: 2.6rem;
          line-height: 110%;
          margin: 2.1rem 0 1.68rem 0;
-         color: blue;
+         color: white;
          }
          .mdl-layout.is-upgraded .mdl-layout__tab.is-active::after {
-         background: blue;
+         background: white;
+         }
+         .fa-2x {
+             font-size: 2em;
+             color: #ee6e73;
          }
       </style>
       }
    </body>
    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script>
 </html>
