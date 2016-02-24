@@ -5,6 +5,135 @@
       <!-- Material Design icon font -->
       <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
       <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+      <!-- Import JQuery -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+      <!-- Material Design Lite -->
+      <script src="https://code.getmdl.io/1.1.1/material.min.js"></script>
+      <script language="JavaScript">
+         function start(){
+             getData();
+         }
+         function getData() {
+         var url = "http://query.yahooapis.com/v1/public/yql";
+         var symbol = $("#symbol").val();
+         var data = encodeURIComponent("select * from yahoo.finance.quotes where symbol in ('" + symbol + "')");
+         
+         $.getJSON(url, 'q=' + data + "&format=json&diagnostics=true&env=http://datatables.org/alltables.env?")
+             .done(function (data) {
+         
+                  $("#ticker").text(data.query.results.quote.Symbol.toUpperCase());
+                  $("#company").text(data.query.results.quote.Name);
+                  $("#time").text("(" + data.query.results.quote.LastTradeTime+")");
+                  $("#result").text(data.query.results.quote.Bid);
+                  
+         
+         }).fail(function (jqxhr, textStatus, error) {
+             var err = textStatus + ", " + error;
+                 $("#result").text('Request failed: ' + err);
+         });
+         }
+         function SendRequest()
+         {
+         
+             getData();
+             document.getElementById('link1').click();
+         }   
+         
+         function CheckEnter(e)
+         {
+             document.getElementById('symbol').onkeypress()=SendRequest();
+             // if ((e.keyCode && e.keyCode==13) || (e.which && e.which==13)) {
+             //     return SendRequest();
+             // }
+             // return true;
+         }  
+         function isEmpty(str) {
+            return typeof str == 'string' && !str.trim() || typeof str == 'undefined' || str === null;
+          }
+         setInterval(function() {
+          if(!isEmpty($("#symbol").val()))
+          {
+            getData();
+            console.log("Polling Stocks");
+          }
+         }, 1000);
+      </script>
+   </head>
+   <body>
+      <!-- Simple header with scrollable tabs. -->
+      <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+         <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+               <!-- Title -->
+               <span class="mdl-layout-title">
+                  <h1>OyeStock-(RealTime Quotes)</h1>
+               </span>
+               &nbsp;&nbsp;&nbsp; <i class="fa fa-rss fa-2x"></i>
+               <div class="mdl-layout-spacer">
+               </div>
+               <div class="mdl-layout-spacer">
+               </div>
+               <a href="https://www.github.com"><i class="fa fa-github fa-2x"></i></a>
+            </div>
+         </header>
+         <div class="mdl-layout__drawer">
+            <div class="docs-logo" href="/">
+               <img src="http://1.bp.blogspot.com/-qbsLac2CpPA/VRQ4cU-5WrI/AAAAAAAAIbA/QG6W3kp17F8/s240/Screen%2BShot%2B2015-03-26%2Bat%2B9.47.38%2BAM.png" alt="OyeCode-Logo">
+               <a href="http://www.oyecode.com" target="_blank" >
+                  <h1 class="docs-logotype md-heading">Launch Oyecode</h1>
+               </a>
+            </div>
+         </div>
+         <main class="mdl-layout__content">
+            <div class="mdl-grid">
+               <div  class="mdl-cell mdl-cell--2-col "></div>
+               <div  class="mdl-cell mdl-cell--8-col card-lesson demo-card-wide mdl-card mdl-shadow--2dp" style="background: #e74c3c;
+                  color: white;
+                  font-family: Roboto, sans-serif;
+                  font-size: 90px;">
+                  <div class="mdl-grid">
+                     <div  class="mdl-cell mdl-cell--1-col"></div>
+                     <div  class="mdl-cell mdl-cell--10-col">
+                        <div id="searchbar" style="padding-top:20px; text-transform: capitalize;">
+                           <!-- Expandable Textfield -->
+                           <form action="#">
+                              <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                                 <label class="mdl-button mdl-js-button mdl-button--icon" for="sample6">
+                                 <i class="material-icons">search</i>
+                                 </label>
+                                 <div class="mdl-textfield__expandable-holder">
+                                    <input class="mdl-textfield__input" id="symbol" onkeypress="return CheckEnter(event);" value="FIT" type="text">
+                                    <label class="mdl-textfield__label" for="sample-expandable">Expandable Input</label>
+                                 </div>
+                              </div>
+                           </form>
+                        </div>
+                        <div id="result" style="padding-top: 20%;
+                           height: 50px;"></div>
+                        <div class="mdl-card__actions mdl-card--border">
+                           <br/>
+                           <div class="mdl-grid">
+                              <div  class="mdl-cell mdl-cell--2-col"></div>
+                              <div  class="mdl-cell mdl-cell--9-col">
+                                 <div class="mdl-card__title">
+                                    <h2 class="mdl-card__title-text" id="ticker" ></h2>
+                                 </div>
+                                 <div id="time" ></div>  
+                                 <br/>
+                                 <div id="company" style="text-transform: capitalize;">
+                                 </div>
+                              </div>
+                              <div  class="mdl-cell mdl-cell--1-col"></div>
+                           </div>
+                        </div>
+                     </div>
+                     <div  class="mdl-cell mdl-cell--1-col"></div>
+                  </div>
+               </div>
+               <div  class="mdl-cell mdl-cell--4-col"></div>
+            </div>
+         </main>
+      </div>
       <style>
          .card-lesson {
          margin: 10px;
@@ -153,139 +282,8 @@
          background: blue;
          }
       </style>
-      <!-- Import JQuery -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
-      <!-- Material Design Lite -->
-      <script src="https://code.getmdl.io/1.1.1/material.min.js"></script>
-      <script language="JavaScript">
-         function isEmpty(str) {
-            return typeof str == 'string' && !str.trim() || typeof str == 'undefined' || str === null;
-          }
-
-         function start(){
-             getData();
-         }
-         function getData() {
-         var url = "http://query.yahooapis.com/v1/public/yql";
-         var symbol = $("#symbol").val();
-         isEmpty(symbol) ? symbol='GOOGL' : symbol=symbol;
-         
-         var data = encodeURIComponent("select * from yahoo.finance.quotes where symbol in ('" + symbol + "')");
-         
-         $.getJSON(url, 'q=' + data + "&format=json&diagnostics=true&env=http://datatables.org/alltables.env?")
-             .done(function (data) {
-         
-                  $("#ticker").text(data.query.results.quote.Symbol.toUpperCase());
-                  $("#company").text(data.query.results.quote.Name);
-                  $("#time").text("(" + data.query.results.quote.LastTradeTime+")");
-                  $("#result").text(data.query.results.quote.Bid);
-                  
-         
-         }).fail(function (jqxhr, textStatus, error) {
-             var err = textStatus + ", " + error;
-                 $("#result").text('Request failed: ' + err);
-         });
-         }
-         function SendRequest()
-         {
-         
-             getData();
-             document.getElementById('link1').click();
-         }   
-         
-         function CheckEnter(e)
-         {
-             document.getElementById('symbol').onkeypress()=SendRequest();
-             // if ((e.keyCode && e.keyCode==13) || (e.which && e.which==13)) {
-             //     return SendRequest();
-             // }
-             // return true;
-         }  
-         
-         setInterval(function() {
-          if(!isEmpty($("#symbol").val()))
-          {
-            getData();
-            console.log("Polling Stocks");
-          }
-         }, 1000);
-      </script>
-   </head>
-   <body>
-      <!-- Simple header with scrollable tabs. -->
-      <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-         <header class="mdl-layout__header">
-            <div class="mdl-layout__header-row">
-               <!-- Title -->
-               <span class="mdl-layout-title">
-                  <h1>OyeStock-(RealTime Quotes)</h1>
-               </span>
-               &nbsp;&nbsp;&nbsp; <i class="fa fa-rss fa-2x"></i>
-               <div class="mdl-layout-spacer">
-               </div>
-               <div class="mdl-layout-spacer">
-               </div>
-               <a href="https://www.github.com"><i class="fa fa-github fa-2x"></i></a>
-            </div>
-         </header>
-         <div class="mdl-layout__drawer">
-            <div class="docs-logo" href="/">
-               <img src="http://1.bp.blogspot.com/-qbsLac2CpPA/VRQ4cU-5WrI/AAAAAAAAIbA/QG6W3kp17F8/s240/Screen%2BShot%2B2015-03-26%2Bat%2B9.47.38%2BAM.png" alt="OyeCode-Logo">
-               <a href="http://www.oyecode.com" target="_blank" >
-                  <h1 class="docs-logotype md-heading">Launch Oyecode</h1>
-               </a>
-            </div>
-         </div>
-         <main class="mdl-layout__content">
-            <div class="mdl-grid">
-               <div  class="mdl-cell mdl-cell--2-col "></div>
-               <div  class="mdl-cell mdl-cell--8-col card-lesson demo-card-wide mdl-card mdl-shadow--2dp" style="background: #e74c3c;
-                  color: white;
-                  font-family: Roboto, sans-serif;
-                  font-size: 90px;">
-                  <div class="mdl-grid">
-                     <div  class="mdl-cell mdl-cell--1-col"></div>
-                     <div  class="mdl-cell mdl-cell--10-col">
-                        <div id="searchbar" style="padding-top:20px; text-transform: capitalize;">
-                           <!-- Expandable Textfield -->
-                           <form action="#">
-                              <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-                                 <label class="mdl-button mdl-js-button mdl-button--icon" for="sample6">
-                                 <i class="material-icons">search</i>
-                                 </label>
-                                 <div class="mdl-textfield__expandable-holder">
-                                    <input class="mdl-textfield__input" id="symbol" onkeypress="return CheckEnter(event);" value='' type="text">
-                                    <label class="mdl-textfield__label" for="sample-expandable">Expandable Input</label>
-                                 </div>
-                              </div>
-                           </form>
-                        </div>
-                        <div id="result" style="padding-top: 20%;
-                           height: 50px;"></div>
-                        <div class="mdl-card__actions mdl-card--border">
-                           <br/>
-                           <div class="mdl-grid">
-                              <div  class="mdl-cell mdl-cell--2-col"></div>
-                              <div  class="mdl-cell mdl-cell--9-col">
-                                 <div class="mdl-card__title">
-                                    <h2 class="mdl-card__title-text" id="ticker" ></h2>
-                                 </div>
-                                 <div id="time" ></div>  
-                                 <br/>
-                                 <div id="company" style="text-transform: capitalize;">
-                                 </div>
-                              </div>
-                              <div  class="mdl-cell mdl-cell--1-col"></div>
-                           </div>
-                        </div>
-                     </div>
-                     <div  class="mdl-cell mdl-cell--1-col"></div>
-                  </div>
-               </div>
-               <div  class="mdl-cell mdl-cell--4-col"></div>
-            </div>
-         </main>
-      </div>
+      }
    </body>
    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script>
 </html>
