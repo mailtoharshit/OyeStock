@@ -50,16 +50,19 @@
          function isEmpty(str) {
             return typeof str == 'string' && !str.trim() || typeof str == 'undefined' || str === null;
           }
-         setInterval(function() {
+         
+            setInterval(function() {
           if(!isEmpty($("#symbol").val()))
           {
             getData();
             console.log("Polling Stocks");
           }
-         }, 8000);
+         }, 2000);
+         
+         
       </script>
    </head>
-   <body>
+   <body onload="refresh();">
       <!-- Simple header with scrollable tabs. -->
       <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
          <header class="mdl-layout__header">
