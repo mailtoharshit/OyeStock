@@ -158,12 +158,18 @@
       <!-- Material Design Lite -->
       <script src="https://code.getmdl.io/1.1.1/material.min.js"></script>
       <script language="JavaScript">
+         function isEmpty(str) {
+            return typeof str == 'string' && !str.trim() || typeof str == 'undefined' || str === null;
+          }
+
          function start(){
              getData();
          }
          function getData() {
          var url = "http://query.yahooapis.com/v1/public/yql";
          var symbol = $("#symbol").val();
+         isEmpty(symbol) ? symbol='GOOGL' : symbol=symbol;
+         
          var data = encodeURIComponent("select * from yahoo.finance.quotes where symbol in ('" + symbol + "')");
          
          $.getJSON(url, 'q=' + data + "&format=json&diagnostics=true&env=http://datatables.org/alltables.env?")
@@ -195,9 +201,7 @@
              // }
              // return true;
          }  
-         function isEmpty(str) {
-            return typeof str == 'string' && !str.trim() || typeof str == 'undefined' || str === null;
-          }
+         
          setInterval(function() {
           if(!isEmpty($("#symbol").val()))
           {
@@ -250,7 +254,7 @@
                                  <i class="material-icons">search</i>
                                  </label>
                                  <div class="mdl-textfield__expandable-holder">
-                                    <input class="mdl-textfield__input" id="symbol" onkeypress="return CheckEnter(event);" value="GOOGL" type="text">
+                                    <input class="mdl-textfield__input" id="symbol" onkeypress="return CheckEnter(event);" placeholder="GOOGL" type="text">
                                     <label class="mdl-textfield__label" for="sample-expandable">Expandable Input</label>
                                  </div>
                               </div>
